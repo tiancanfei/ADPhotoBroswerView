@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2EA739BC77C0097BCB24E15 /* libPods-APhotoBroswer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BA46521B73A80D621ABEDF /* libPods-APhotoBroswer.a */; };
 		AC822D651DAB34DA007C2F00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D641DAB34DA007C2F00 /* main.m */; };
 		AC822D681DAB34DA007C2F00 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D671DAB34DA007C2F00 /* AppDelegate.m */; };
 		AC822D6B1DAB34DA007C2F00 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D6A1DAB34DA007C2F00 /* ViewController.m */; };
@@ -15,6 +16,7 @@
 		AC822D731DAB34DA007C2F00 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC822D711DAB34DA007C2F00 /* LaunchScreen.storyboard */; };
 		AC822D7E1DAB34DA007C2F00 /* APhotoBroswerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D7D1DAB34DA007C2F00 /* APhotoBroswerTests.m */; };
 		AC822D891DAB34DA007C2F00 /* APhotoBroswerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D881DAB34DA007C2F00 /* APhotoBroswerUITests.m */; };
+		AC822D9E1DAB4469007C2F00 /* ADPhotoBroswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D9D1DAB4469007C2F00 /* ADPhotoBroswerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		67BA46521B73A80D621ABEDF /* libPods-APhotoBroswer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-APhotoBroswer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AB68B318B7C44B99A4CFF29 /* Pods-APhotoBroswer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APhotoBroswer.release.xcconfig"; path = "Pods/Target Support Files/Pods-APhotoBroswer/Pods-APhotoBroswer.release.xcconfig"; sourceTree = "<group>"; };
 		AC822D601DAB34DA007C2F00 /* APhotoBroswer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = APhotoBroswer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC822D641DAB34DA007C2F00 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AC822D661DAB34DA007C2F00 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -51,6 +55,9 @@
 		AC822D841DAB34DA007C2F00 /* APhotoBroswerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APhotoBroswerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC822D881DAB34DA007C2F00 /* APhotoBroswerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APhotoBroswerUITests.m; sourceTree = "<group>"; };
 		AC822D8A1DAB34DA007C2F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC822D9C1DAB4468007C2F00 /* ADPhotoBroswerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADPhotoBroswerView.h; sourceTree = "<group>"; };
+		AC822D9D1DAB4469007C2F00 /* ADPhotoBroswerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADPhotoBroswerView.m; sourceTree = "<group>"; };
+		B3B0534FE00983E4E6598FF2 /* Pods-APhotoBroswer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APhotoBroswer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-APhotoBroswer/Pods-APhotoBroswer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2EA739BC77C0097BCB24E15 /* libPods-APhotoBroswer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +86,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12A862C69FD99137B0AF14A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				67BA46521B73A80D621ABEDF /* libPods-APhotoBroswer.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		244235A88D8408BFF8E61CF2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B3B0534FE00983E4E6598FF2 /* Pods-APhotoBroswer.debug.xcconfig */,
+				7AB68B318B7C44B99A4CFF29 /* Pods-APhotoBroswer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AC822D571DAB34DA007C2F00 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +110,8 @@
 				AC822D7C1DAB34DA007C2F00 /* APhotoBroswerTests */,
 				AC822D871DAB34DA007C2F00 /* APhotoBroswerUITests */,
 				AC822D611DAB34DA007C2F00 /* Products */,
+				244235A88D8408BFF8E61CF2 /* Pods */,
+				12A862C69FD99137B0AF14A3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +130,8 @@
 			children = (
 				AC822D661DAB34DA007C2F00 /* AppDelegate.h */,
 				AC822D671DAB34DA007C2F00 /* AppDelegate.m */,
+				AC822D9C1DAB4468007C2F00 /* ADPhotoBroswerView.h */,
+				AC822D9D1DAB4469007C2F00 /* ADPhotoBroswerView.m */,
 				AC822D691DAB34DA007C2F00 /* ViewController.h */,
 				AC822D6A1DAB34DA007C2F00 /* ViewController.m */,
 				AC822D6C1DAB34DA007C2F00 /* Main.storyboard */,
@@ -147,9 +176,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC822D8D1DAB34DA007C2F00 /* Build configuration list for PBXNativeTarget "APhotoBroswer" */;
 			buildPhases = (
+				8EEB8028E68834A4C3203F8B /* [CP] Check Pods Manifest.lock */,
 				AC822D5C1DAB34DA007C2F00 /* Sources */,
 				AC822D5D1DAB34DA007C2F00 /* Frameworks */,
 				AC822D5E1DAB34DA007C2F00 /* Resources */,
+				33871B6D25424BECE45D9E72 /* [CP] Embed Pods Frameworks */,
+				4A2F39663326B94474CB9419 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -265,11 +297,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		33871B6D25424BECE45D9E72 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-APhotoBroswer/Pods-APhotoBroswer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A2F39663326B94474CB9419 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-APhotoBroswer/Pods-APhotoBroswer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8EEB8028E68834A4C3203F8B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AC822D5C1DAB34DA007C2F00 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC822D9E1DAB4469007C2F00 /* ADPhotoBroswerView.m in Sources */,
 				AC822D6B1DAB34DA007C2F00 /* ViewController.m in Sources */,
 				AC822D681DAB34DA007C2F00 /* AppDelegate.m in Sources */,
 				AC822D651DAB34DA007C2F00 /* main.m in Sources */,
@@ -413,6 +494,7 @@
 		};
 		AC822D8E1DAB34DA007C2F00 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B3B0534FE00983E4E6598FF2 /* Pods-APhotoBroswer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = APhotoBroswer/Info.plist;
@@ -424,6 +506,7 @@
 		};
 		AC822D8F1DAB34DA007C2F00 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AB68B318B7C44B99A4CFF29 /* Pods-APhotoBroswer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = APhotoBroswer/Info.plist;
@@ -498,6 +581,7 @@
 				AC822D8F1DAB34DA007C2F00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AC822D901DAB34DA007C2F00 /* Build configuration list for PBXNativeTarget "APhotoBroswerTests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +590,7 @@
 				AC822D921DAB34DA007C2F00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AC822D931DAB34DA007C2F00 /* Build configuration list for PBXNativeTarget "APhotoBroswerUITests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +599,7 @@
 				AC822D951DAB34DA007C2F00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

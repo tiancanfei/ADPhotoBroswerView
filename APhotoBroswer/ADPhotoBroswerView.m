@@ -172,13 +172,16 @@
 
 - (void)scaleImage
 {
-    self.scale++;
-    self.dismissImageView.layer.transform = CATransform3DScale([UIApplication sharedApplication].keyWindow.layer.transform, self.scale, self.scale, 0);
-    NSLog(@"%zd",self.scale);
     if (self.scale == kMaxScale)
     {
         self.scale = 1;
     }
+    else
+    {
+        self.scale++;
+    }
+    self.dismissImageView.layer.transform = CATransform3DScale([UIApplication sharedApplication].keyWindow.layer.transform, self.scale, self.scale, 0);
+    NSLog(@"%zd",self.scale);
 }
 
 - (void)pinch:(UIPinchGestureRecognizer *)pinch

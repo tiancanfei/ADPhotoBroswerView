@@ -10,6 +10,6 @@
 
 @interface ADPhotoBroswerView : UIView
 
-- (void)showImagesWithOriginalUrls:(NSArray *)originalUrls thumbnailUrls:(NSArray *)thumbnailUrls;
+- (void)showImagesWithOriginalUrls:(NSArray *)originalUrls thumbnailImageViews:(NSArray *)thumbnailImageViews;
 
 @end

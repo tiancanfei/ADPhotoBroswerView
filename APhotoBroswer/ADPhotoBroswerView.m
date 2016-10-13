@@ -15,7 +15,7 @@
 #define kMaxScale 3
 #define kMinScale 0.5
 
-#define kPlaceholderImage [UIImage imageNamed:@"zhanweifu"]
+#define kPlaceholderImage nil
 
 #pragma mark - ADPhotoBroswerViewCell
 
@@ -29,6 +29,8 @@
 
 /**放大图片容器*/
 @property (nonatomic, strong) UIScrollView *imageScaleView;
+
+@property (nonatomic, strong) UIImage *placeholderImage;
 
 @end
 
@@ -128,7 +130,8 @@
     
     if (!cacheImage)
     {
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:_originalUrl] placeholderImage:kPlaceholderImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        UIImage *placeholderImage = self.placeholderImage ? self.placeholderImage : kPlaceholderImage;
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:_originalUrl] placeholderImage:placeholderImage options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             if (receivedSize == 0)
             {
                 [SVProgressHUD show];
@@ -169,6 +172,8 @@
         _imageScaleView = [[UIScrollView alloc] init];
         _imageScaleView.minimumZoomScale = kMinScale;
         _imageScaleView.maximumZoomScale = kMaxScale;
+        _imageScaleView.showsVerticalScrollIndicator = NO;
+        _imageScaleView.showsHorizontalScrollIndicator = NO;
         _imageScaleView.delegate = self;
         _imageScaleView.contentInset = UIEdgeInsetsZero;
     }
@@ -180,7 +185,7 @@
     if (!_imageView)
     {
         _imageView = [[UIImageView alloc] init];
-        _imageView.backgroundColor = [UIColor redColor];
+//        _imageView.backgroundColor = [UIColor redColor];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         _imageView.userInteractionEnabled = YES;
     }
@@ -233,10 +238,11 @@
     UIImage *thumbnailImage = [(UIImageView *)self.thumbnailImageViews[indexPath.row] image];
     cell.imageView.image = thumbnailImage;
     NSString *originalUrl =  indexPath.row >= self.originalUrls.count ? @"" : self.originalUrls[indexPath.row];
+    cell.placeholderImage = self.placeholderImage;
 
     cell.imageView.image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:originalUrl];
     
-    cell.backgroundColor = [UIColor blueColor];
+//    cell.backgroundColor = [UIColor blueColor];
     cell.originalUrl = originalUrl;
     self.currentCell = cell;
     
@@ -246,6 +252,18 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.identifiers.count;
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.currentImageIndex inSection:0];
+    
+    [self.browerView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self setUpPageControl];
 }
 
 #pragma mark getter setter
@@ -263,18 +281,19 @@
 {
     if (!_browerView)
     {
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.minimumLineSpacing = 0;
+        layout.minimumLineSpacing = 10;
         layout.minimumInteritemSpacing = 0;
-        layout.itemSize = keyWindow.bounds.size;
+        layout.itemSize = CGSizeMake(kScreenWidth, kScreenHeight);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
-        _browerView = [[UICollectionView alloc] initWithFrame:keyWindow.bounds collectionViewLayout:layout];
+        _browerView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) collectionViewLayout:layout];
         _browerView.backgroundColor = [UIColor blackColor];
         _browerView.delegate = self;
         _browerView.dataSource = self;
         _browerView.pagingEnabled = YES;
+        _browerView.showsHorizontalScrollIndicator = NO;
+        _browerView.showsVerticalScrollIndicator = NO;
         
         _browerView.userInteractionEnabled = YES;
         
@@ -282,13 +301,11 @@
         doubleTap.numberOfTapsRequired = 2;
         
         
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCover)];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissBrowserView)];
         [singleTap requireGestureRecognizerToFail:doubleTap];
         
         [_browerView addGestureRecognizer:singleTap];
         [_browerView addGestureRecognizer:doubleTap];
-        
-        [keyWindow addSubview:_browerView];
     }
     return _browerView;
 }
@@ -303,26 +320,67 @@
 - (NSInteger)currentImageIndex
 {
     CGFloat x = self.browerView.contentOffset.x;
-    _currentImageIndex = (x + kScreenWidth * 0.5) / kScreenWidth;
+     _currentImageIndex = (x + kScreenWidth * 0.5) / kScreenWidth;
     return _currentImageIndex;
 }
 
 #pragma mark 自定义
 
-- (void)showImagesWithOriginalUrls:(NSArray *)originalUrls thumbnailImageViews:(NSArray *)thumbnailImageViews
++ (instancetype)showImagesWithOriginalUrls:(NSArray *)originalUrls
+                       thumbnailImageViews:(NSArray<UIImageView *> *)thumbnailImageViews
+                          browseStartIndex:(NSInteger)browseStartIndex;
 {
-    self.thumbnailImageViews = thumbnailImageViews;
-    self.originalUrls = originalUrls;
+    ADPhotoBroswerView *photoBroswerView = [[ADPhotoBroswerView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+    photoBroswerView.thumbnailImageViews = thumbnailImageViews;
+    photoBroswerView.originalUrls = originalUrls;
     
     __block NSMutableArray *identifiers = [NSMutableArray array];
     
-    [self.thumbnailImageViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         NSString *identifier = [NSString stringWithFormat:@"%zd",idx];
-        [self.browerView registerClass:[ADPhotoBroswerViewCell class] forCellWithReuseIdentifier:identifier];
+    [photoBroswerView.thumbnailImageViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *identifier = [NSString stringWithFormat:@"%zd",idx];
+        [photoBroswerView.browerView registerClass:[ADPhotoBroswerViewCell class] forCellWithReuseIdentifier:identifier];
         [identifiers addObject:identifier];
     }];
     
-    self.identifiers = identifiers;
+    photoBroswerView.identifiers = identifiers;
+    
+    [photoBroswerView addSubview:photoBroswerView.browerView];
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    
+    [keyWindow addSubview:photoBroswerView];
+    
+    photoBroswerView.hidden = YES;
+    
+    NSInteger startIndex = browseStartIndex < thumbnailImageViews.count ? browseStartIndex : 0;
+    
+    UIImageView *startView = (UIImageView *)thumbnailImageViews[startIndex];
+    
+    photoBroswerView.snapshotView = [startView snapshotViewAfterScreenUpdates:YES];
+    
+    photoBroswerView.snapshotView.frame = [startView.superview convertRect:startView.frame toView:keyWindow];
+    
+    [keyWindow addSubview:photoBroswerView.snapshotView];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:startIndex inSection:0];
+    
+    [photoBroswerView.browerView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+    
+    CGFloat x = 0;
+    CGFloat w = kScreenWidth;
+    CGFloat h = startView.image.size.height * w /  startView.image.size.width;
+    CGFloat y = (kScreenHeight - h) * 0.5;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        photoBroswerView.snapshotView.frame = CGRectMake(x, y, w, h);
+    } completion:^(BOOL finished) {
+        photoBroswerView.hidden = NO;
+        [photoBroswerView.snapshotView removeFromSuperview];
+        photoBroswerView.snapshotView = nil;
+    }];
+    
+    return photoBroswerView;
 }
 
 - (void)scaleImage
@@ -341,7 +399,7 @@
 }
 
 
-- (void)dismissCover
+- (void)dismissBrowserView
 {
     self.snapshotView = [self.currentCell.imageView snapshotViewAfterScreenUpdates:YES];
     
@@ -349,7 +407,7 @@
     
     [[UIApplication sharedApplication].keyWindow addSubview:self.snapshotView];
     
-    [self.browerView removeFromSuperview];
+    [self removeFromSuperview];
     
 //    NSLog(@"下标:%zd",self.currentImageIndex);
     
@@ -362,6 +420,11 @@
         [self.snapshotView removeFromSuperview];
         self.snapshotView = nil;
     }];
+}
+
+- (void)setUpPageControl
+{
+    NSLog(@"%zd",self.currentImageIndex);
 }
 
 @end

@@ -48,7 +48,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTest:)];
     
     [imageView addGestureRecognizer:tap];
-
+    
     
     //@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476245140&di=042eb091391938de16887e2f7916a933&src=http://www.ip138.com/images/china31.jpg"
     
@@ -60,12 +60,15 @@
 //    [(ADPhotoBroswerView *)gesture.view showImagesWithOriginalUrls:@[@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476245140&di=042eb091391938de16887e2f7916a933&src=http://www.ip138.com/images/china31.jpg",@"http://b.hiphotos.baidu.com/zhidao/pic/item/8d5494eef01f3a29fc8b5f449f25bc315d607cfd.jpg",@"http://img5q.duitang.com/uploads/item/201506/02/20150602151418_5SfN2.jpeg",@"http://pic12.nipic.com/20110113/5869038_153749556191_2.jpg"
 //] thumbnailUrls:nil];
     
-    ADPhotoBroswerView *view1 = [[ADPhotoBroswerView alloc] init];
+//    ADPhotoBroswerView *view1 = [[ADPhotoBroswerView alloc] init];
+//    
+//    self.view1 = view1;
     
-    self.view1 = view1;
+    ADPhotoBroswerView *v = [ADPhotoBroswerView showImagesWithOriginalUrls:@[@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476245140&di=042eb091391938de16887e2f7916a933&src=http://www.ip138.com/images/china31.jpg",@"http://b.hiphotos.baidu.com/zhidao/pic/item/8d5494eef01f3a29fc8b5f449f25bc315d607cfd.jpg",@"http://img5q.duitang.com/uploads/item/201506/02/20150602151418_5SfN2.jpeg",@"http://pic12.nipic.com/20110113/5869038_153749556191_2.jpg"
+                                       ] thumbnailImageViews:@[gesture.view,gesture.view,gesture.view,gesture.view,gesture.view,gesture.view] browseStartIndex:2];
     
-    [view1 showImagesWithOriginalUrls:@[@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476245140&di=042eb091391938de16887e2f7916a933&src=http://www.ip138.com/images/china31.jpg",@"http://b.hiphotos.baidu.com/zhidao/pic/item/8d5494eef01f3a29fc8b5f449f25bc315d607cfd.jpg",@"http://img5q.duitang.com/uploads/item/201506/02/20150602151418_5SfN2.jpeg",@"http://pic12.nipic.com/20110113/5869038_153749556191_2.jpg"
-                                       ] thumbnailImageViews:@[gesture.view,gesture.view,gesture.view,gesture.view,gesture.view,gesture.view]];
+    
+    v.placeholderImage = [UIImage imageNamed:@"zhanweifu"];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,6 +10,15 @@
 
 @interface ADPhotoBroswerView : UIView
 
-- (void)showImagesWithOriginalUrls:(NSArray *)originalUrls thumbnailImageViews:(NSArray *)thumbnailImageViews;
+/**展位图片*/
+@property (nonatomic, strong) UIImage *placeholderImage;
 
+/**
+ originalUrls：原图地址
+ thumbnailImageViews：展示缩略图UIImageView控件
+ browseStartIndex：浏览开始脚标(从哪一个缩略图展示的图片开始浏览)
+ */
++ (instancetype)showImagesWithOriginalUrls:(NSArray *)originalUrls
+                       thumbnailImageViews:(NSArray<UIImageView *> *)thumbnailImageViews
+                          browseStartIndex:(NSInteger)browseStartIndex;
 @end

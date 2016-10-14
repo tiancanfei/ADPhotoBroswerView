@@ -36,6 +36,7 @@
 
 @implementation ADPhotoBroswerViewCell
 
+#pragma mark 系统方法
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
@@ -234,6 +235,8 @@
 @end
 
 @implementation ADPhotoBroswerView
+
+#pragma mark 系统方法
 
 +(void)load
 {

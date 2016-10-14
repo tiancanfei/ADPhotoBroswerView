@@ -228,6 +228,9 @@
 /**浏览开始脚标(从哪一个缩略图展示的图片开始浏览)*/
 @property (nonatomic, assign)  NSInteger browseStartIndex;
 
+/**分页控制器*/
+@property (nonatomic, strong)  UIPageControl *pageControl;
+
 @end
 
 @implementation ADPhotoBroswerView
@@ -325,6 +328,15 @@
     return _currentImageIndex;
 }
 
+- (UIPageControl *)pageControl
+{
+    if (!_pageControl)
+    {
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, kScreenHeight - 44, kScreenWidth, 44)];
+    }
+    return _pageControl;
+}
+
 #pragma mark 自定义
 
 /**工厂方法*/
@@ -347,10 +359,15 @@
     }];
     photoBroswerView.identifiers = identifiers;
     
-    //添加浏览图片的容器
+    //设置浏览图片的容器
     [photoBroswerView addSubview:photoBroswerView.browerView];
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     [keyWindow addSubview:photoBroswerView];
+    
+    //设置分页控制
+    [photoBroswerView addSubview:photoBroswerView.pageControl];
+    photoBroswerView.pageControl.numberOfPages = thumbnailImageViews.count;
+    photoBroswerView.pageControl.currentPage = browseStartIndex;
     
     //开始浏览图片的下标
     photoBroswerView.browseStartIndex = browseStartIndex < thumbnailImageViews.count ? browseStartIndex : 0;
@@ -448,6 +465,8 @@
 - (void)setUpPageControl
 {
     NSLog(@"%zd",self.currentImageIndex);
+    
+    self.pageControl.currentPage = self.currentImageIndex;
 }
 
 @end

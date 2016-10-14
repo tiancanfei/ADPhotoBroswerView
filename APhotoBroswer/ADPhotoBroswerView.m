@@ -385,9 +385,12 @@
     [keyWindow addSubview:photoBroswerView];
     
     //设置分页控制
-    [photoBroswerView addSubview:photoBroswerView.pageControl];
-    photoBroswerView.pageControl.numberOfPages = thumbnailImageViews.count;
-    photoBroswerView.pageControl.currentPage = browseStartIndex;
+    if (thumbnailImageViews.count > 1)
+    {        
+        [photoBroswerView addSubview:photoBroswerView.pageControl];
+        photoBroswerView.pageControl.numberOfPages = thumbnailImageViews.count;
+        photoBroswerView.pageControl.currentPage = browseStartIndex;
+    }
     
     //开始浏览图片的下标
     photoBroswerView.browseStartIndex = browseStartIndex < thumbnailImageViews.count ? browseStartIndex : 0;

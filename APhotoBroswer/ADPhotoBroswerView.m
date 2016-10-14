@@ -146,7 +146,7 @@
             
             if (error)
             {
-                [SVProgressHUD showErrorWithStatus:error.domain];
+                [SVProgressHUD showImage:nil status:@"图片加载失败"];
             }
             else
             {
@@ -225,9 +225,17 @@
 /**当前图片下标*/
 @property (nonatomic, assign) NSInteger currentImageIndex;
 
+/**浏览开始脚标(从哪一个缩略图展示的图片开始浏览)*/
+@property (nonatomic, assign)  NSInteger browseStartIndex;
+
 @end
 
 @implementation ADPhotoBroswerView
+
++(void)load
+{
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+}
 
 #pragma mark UICollectionViewDelegate,UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -319,6 +327,7 @@
 
 #pragma mark 自定义
 
+/**工厂方法*/
 + (instancetype)showImagesWithOriginalUrls:(NSArray *)originalUrls
                        thumbnailImageViews:(NSArray<UIImageView *> *)thumbnailImageViews
                           browseStartIndex:(NSInteger)browseStartIndex;
@@ -328,54 +337,74 @@
     photoBroswerView.thumbnailImageViews = thumbnailImageViews;
     photoBroswerView.originalUrls = originalUrls;
     
-    __block NSMutableArray *identifiers = [NSMutableArray array];
     
+    //构造cell标示(这里cell不重用)
+    __block NSMutableArray *identifiers = [NSMutableArray array];
     [photoBroswerView.thumbnailImageViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *identifier = [NSString stringWithFormat:@"%zd",idx];
         [photoBroswerView.browerView registerClass:[ADPhotoBroswerViewCell class] forCellWithReuseIdentifier:identifier];
         [identifiers addObject:identifier];
     }];
-    
     photoBroswerView.identifiers = identifiers;
     
+    //添加浏览图片的容器
     [photoBroswerView addSubview:photoBroswerView.browerView];
-    
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    
     [keyWindow addSubview:photoBroswerView];
     
-    photoBroswerView.hidden = YES;
+    //开始浏览图片的下标
+    photoBroswerView.browseStartIndex = browseStartIndex < thumbnailImageViews.count ? browseStartIndex : 0;
     
-    NSInteger startIndex = browseStartIndex < thumbnailImageViews.count ? browseStartIndex : 0;
-    
-    UIImageView *startView = (UIImageView *)thumbnailImageViews[startIndex];
-    
-    photoBroswerView.snapshotView = [startView snapshotViewAfterScreenUpdates:YES];
-    
-    photoBroswerView.snapshotView.frame = [startView.superview convertRect:startView.frame toView:keyWindow];
-    
-    [keyWindow addSubview:photoBroswerView.snapshotView];
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:startIndex inSection:0];
-    
-    [photoBroswerView.browerView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-    
-    CGFloat x = 0;
-    CGFloat w = kScreenWidth;
-    CGFloat h = startView.image.size.height * w /  startView.image.size.width;
-    CGFloat y = (kScreenHeight - h) * 0.5;
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        photoBroswerView.snapshotView.frame = CGRectMake(x, y, w, h);
-    } completion:^(BOOL finished) {
-        photoBroswerView.hidden = NO;
-        [photoBroswerView.snapshotView removeFromSuperview];
-        photoBroswerView.snapshotView = nil;
-    }];
+    //开始浏览初始化动画(如果存在大图缓存执行该动画)
+    [photoBroswerView initializeAnimation];
     
     return photoBroswerView;
 }
 
+/**开始浏览初始化动画(如果存在大图缓存执行该动画)*/
+- (void)initializeAnimation
+{
+    NSInteger startIndex = self.browseStartIndex;
+    
+    UIImage *startImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:self.originalUrls[startIndex]];
+    if (startImage)
+    {
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        UIImageView *startView = (UIImageView *)self.thumbnailImageViews[startIndex];
+        
+        self.snapshotView = [startView snapshotViewAfterScreenUpdates:YES];
+        
+        self.snapshotView.frame = [startView.superview convertRect:startView.frame toView:keyWindow];
+        
+        UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+        
+        coverView.backgroundColor = [UIColor blackColor];
+        
+        [coverView addSubview:self.snapshotView];
+        
+        [keyWindow addSubview:coverView];
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:startIndex inSection:0];
+        
+        [self.browerView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        
+        CGFloat x = 0;
+        CGFloat w = kScreenWidth;
+        CGFloat h = startImage.size.height * w /  startImage.size.width;
+        CGFloat y = (kScreenHeight - h) * 0.5;
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.snapshotView.frame = CGRectMake(x, y, w, h);
+        } completion:^(BOOL finished) {
+            self.hidden = NO;
+            [self.snapshotView removeFromSuperview];
+            self.snapshotView = nil;
+            [coverView removeFromSuperview];
+        }];
+    }
+}
+
+/**点击放大*/
 - (void)scaleImage
 {
     if (self.scale >= kMaxScale)
@@ -391,7 +420,7 @@
     cell.imageScaleView.zoomScale = self.scale;
 }
 
-
+/**移除图片浏览器*/
 - (void)dismissBrowserView
 {
     self.snapshotView = [self.currentCell.imageView snapshotViewAfterScreenUpdates:YES];
@@ -407,7 +436,7 @@
     UIView *finallyView = self.thumbnailImageViews[self.currentImageIndex];
     CGRect origanalRect = [finallyView.superview convertRect:finallyView.frame toView:[UIApplication sharedApplication].keyWindow];
     
-    [UIView animateWithDuration:3 animations:^{
+    [UIView animateWithDuration:0.25 animations:^{
         self.snapshotView.frame = origanalRect;
     } completion:^(BOOL finished) {
         [self.snapshotView removeFromSuperview];
@@ -415,6 +444,7 @@
     }];
 }
 
+/**设置分页控件*/
 - (void)setUpPageControl
 {
     NSLog(@"%zd",self.currentImageIndex);

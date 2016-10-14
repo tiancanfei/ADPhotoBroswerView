@@ -36,9 +36,13 @@
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(200, 100, 100, 100)];
     
+    imageView.backgroundColor = [UIColor redColor];
+    
+//    imageView.image = [UIImage imageNamed:@"zhanweifu"];
+    
     imageView.userInteractionEnabled = YES;
     
-    [imageView sd_setImageWithURL:[NSURL URLWithString:@"http://b.hiphotos.baidu.com/zhidao/pic/item/8d5494eef01f3a29fc8b5f449f25bc315d607cfd.jpg"]];
+//    [imageView sd_setImageWithURL:[NSURL URLWithString:@"http://b.hiphotos.baidu.com/zhidao/pic/item/8d5494eef01f3a29fc8b5f449f25bc315d607cfd.jpg"]];
     
     [self.view addSubview:imageView];
 
@@ -67,8 +71,8 @@
 //    
 //    self.view1 = view1;
     
-    ADPhotoBroswerView *v = [ADPhotoBroswerView showImagesWithOriginalUrls:@[@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476245140&di=042eb091391938de16887e2f7916a933&src=http://www.ip138.com/images/china31.jpg",@"http://b.hiphotos.baidu.com/zhidao/pic/item/8d5494eef01f3a29fc8b5f449f25bc315d607cfd.jpg",@"http://img5q.duitang.com/uploads/item/201506/02/20150602151418_5SfN2.jpeg",@"http://pic12.nipic.com/20110113/5869038_153749556191_2.jpg"
-                                       ] thumbnailImageViews:@[gesture.view,self.imageView1,gesture.view,gesture.view,gesture.view,gesture.view] browseStartIndex:1];
+    ADPhotoBroswerView *v = [ADPhotoBroswerView showImagesWithOriginalUrls:@[@"http://b.hiphotos.baidu.com/zhidao/pic/item/8d5494eef01f3a29fc8b5f449f25bc315d607cfd.jpg",@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476245140&di=042eb091391938de16887e2f7916a933&src=http://www.ip138.com/images/china31.jpg",@"http://img5q.duitang.com/uploads/item/201506/02/20150602151418_5SfN2.jpeg",@"http://pic12.nipic.com/20110113/5869038_153749556191_2.jpg"
+                                       ] thumbnailImageViews:@[gesture.view,self.imageView1,gesture.view,gesture.view,gesture.view,gesture.view] browseStartIndex:0];
     
     
     v.placeholderImage = [UIImage imageNamed:@"zhanweifu"];

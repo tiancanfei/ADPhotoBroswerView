@@ -254,13 +254,6 @@
     return self.identifiers.count;
 }
 
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.currentImageIndex inSection:0];
-    
-    [self.browerView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self setUpPageControl];
@@ -282,7 +275,7 @@
     if (!_browerView)
     {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.minimumLineSpacing = 10;
+        layout.minimumLineSpacing = 0;
         layout.minimumInteritemSpacing = 0;
         layout.itemSize = CGSizeMake(kScreenWidth, kScreenHeight);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;

@@ -226,6 +226,9 @@
 /**当前图片下标*/
 @property (nonatomic, assign) NSInteger currentImageIndex;
 
+/**当前图片原图*/
+@property (nonatomic, strong) UIImage *currentOriginalImage;
+
 /**浏览开始脚标(从哪一个缩略图展示的图片开始浏览)*/
 @property (nonatomic, assign)  NSInteger browseStartIndex;
 
@@ -340,6 +343,20 @@
     return _pageControl;
 }
 
+- (UIImage *)currentOriginalImage
+{
+    UIImage *originalImage = nil;
+    
+    if (self.currentImageIndex < self.originalUrls.count)
+    {
+        NSString *originalUrl = self.originalUrls[self.currentImageIndex];
+        
+        originalImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:originalUrl];
+    }
+    
+    return originalImage;
+}
+
 #pragma mark 自定义
 
 /**工厂方法*/
@@ -427,6 +444,13 @@
 /**点击放大*/
 - (void)scaleImage
 {
+    //没有原图不能放大
+    if (!self.currentOriginalImage)
+    {
+        return;
+    }
+
+
     if (self.scale >= kMaxScale)
     {
         self.scale = 1;
@@ -467,8 +491,7 @@
 /**设置分页控件*/
 - (void)setUpPageControl
 {
-    NSLog(@"%zd",self.currentImageIndex);
-    
+//    NSLog(@"%zd",self.currentImageIndex);
     self.pageControl.currentPage = self.currentImageIndex;
 }
 

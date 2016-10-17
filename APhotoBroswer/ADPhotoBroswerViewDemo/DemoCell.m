@@ -60,7 +60,6 @@
 
 - (void)tapBroswe:(UIGestureRecognizer *)gesture
 {
-    //从下标1开始浏览图片
     ADPhotoBroswerView *photoBroswerView = [ADPhotoBroswerView showImagesWithOriginalUrls:self.originalUrls
                                                                       thumbnailImageViews:self.imageViews browseStartIndex:gesture.view.tag];
     photoBroswerView.placeholderImage = [UIImage imageNamed:@"zhanweifu"];

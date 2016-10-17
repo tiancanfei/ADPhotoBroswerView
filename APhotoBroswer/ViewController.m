@@ -7,15 +7,16 @@
 //
 
 #import "ViewController.h"
-#import "ADPhotoBroswerView.h"
-#import "UIImageView+WebCache.h"
+#import "DemoCell.h"
 
-@interface ViewController ()
+#define kScreenHeight     ([UIScreen mainScreen].bounds.size.height)
+#define kScreenWidth      ([UIScreen mainScreen].bounds.size.width)
 
-@property (nonatomic, strong)  UIImageView *imageView1;
-
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 /**原图地址*/
 @property (nonatomic, strong)  NSArray *originalUrls;
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -24,31 +25,43 @@
 #pragma mark - 生命周期
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
-    self.view.backgroundColor = [UIColor greenColor];
-    
-    
-    //添加图片1
-    UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 100, 100, 100)];
-    self.imageView1 = imageView1;
-    [imageView1 sd_setImageWithURL:[NSURL URLWithString:@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1476245140&di=042eb091391938de16887e2f7916a933&src=http://www.ip138.com/images/china31.jpg"]];
-    [self.view addSubview:imageView1];
-    
-    //添加图片2
-    UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(200, 100, 100, 100)];
-    imageView2.backgroundColor = [UIColor redColor];
-    imageView2.userInteractionEnabled = YES;
-    [self.view addSubview:imageView2];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBroswe:)];
-    [imageView2 addGestureRecognizer:tap];
+    [super viewDidLoad];  
+    [self.view addSubview:self.tableView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - 代理
+
+#pragma mark UITableViewDelegate,UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DemoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell.originalUrls = self.originalUrls;
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    CGFloat margin = 10;
+    CGFloat h = (kScreenWidth - 4 * margin) / 3;
+    
+    NSInteger row = self.originalUrls.count / 3 + 1;
+    
+    return row * h + (row + 1) * 10;
+}
+
 
 #pragma mark - getter setter
 
@@ -58,14 +71,16 @@
              ];
 }
 
-#pragma mark - 自定义方法
-
-- (void)tapBroswe:(UIGestureRecognizer *)gesture
+- (UITableView *)tableView
 {
-    //从下标1开始浏览图片
-    ADPhotoBroswerView *photoBroswerView = [ADPhotoBroswerView showImagesWithOriginalUrls:self.originalUrls
-                                                                      thumbnailImageViews:@[gesture.view,self.imageView1,gesture.view,gesture.view,gesture.view,gesture.view] browseStartIndex:1];
-    photoBroswerView.placeholderImage = [UIImage imageNamed:@"zhanweifu"];
+    if (!_tableView)
+    {
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [_tableView registerClass:[DemoCell class] forCellReuseIdentifier:@"cell"];
+    }
+    return _tableView;
 }
 
 @end

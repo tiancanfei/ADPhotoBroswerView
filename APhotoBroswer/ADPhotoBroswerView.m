@@ -10,8 +10,8 @@
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
 
-#define kScreenHeight     ([UIScreen mainScreen].bounds.size.height)
-#define kScreenWidth      ([UIScreen mainScreen].bounds.size.width)
+//#define kScreenHeight     ([UIScreen mainScreen].bounds.size.height)
+//#define kScreenWidth      ([UIScreen mainScreen].bounds.size.width)
 #define kMaxScale 3
 #define kMinScale 0.5
 
@@ -161,8 +161,8 @@
     }
     else
     {
-        self.imageView.image = cacheImage;
         self.imageView.frame = CGRectMake(0, y, w, h);
+        self.imageView.image = cacheImage;
     }
 }
 
@@ -186,8 +186,9 @@
     if (!_imageView)
     {
         _imageView = [[UIImageView alloc] init];
-//        _imageView.backgroundColor = [UIColor redColor];
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        _imageView.backgroundColor = [UIColor redColor];
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.layer.masksToBounds = YES;
         _imageView.userInteractionEnabled = YES;
     }
     return _imageView;
@@ -235,6 +236,12 @@
 /**分页控制器*/
 @property (nonatomic, strong)  UIPageControl *pageControl;
 
+/**最初展示图片*/
+@property (nonatomic, strong) UIImageView *startImageView;
+
+/**最终展示图片*/
+@property (nonatomic, strong) UIImageView *endImageView;
+
 @end
 
 @implementation ADPhotoBroswerView
@@ -259,9 +266,7 @@
 
     cell.imageView.image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:originalUrl];
     
-//    cell.backgroundColor = [UIColor blueColor];
     cell.originalUrl = originalUrl;
-    self.currentCell = cell;
     
     return cell;
 }
@@ -285,6 +290,26 @@
     CGFloat x = (kScreenWidth - w) * 0.5;
     CGFloat y = (kScreenHeight - h) * 0.5;
     return CGRectMake(x, y, w, h);
+}
+
+- (UIImageView *)startImageView
+{
+    if (!_startImageView) {
+        _startImageView = [[UIImageView alloc] init];
+        _startImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _startImageView.layer.masksToBounds = YES;
+    }
+    return _startImageView;
+}
+
+- (UIImageView *)endImageView
+{
+    if (!_endImageView) {
+        _endImageView = [[UIImageView alloc] init];
+        _endImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _endImageView.layer.masksToBounds = YES;
+    }
+    return _endImageView;
 }
 
 - (UICollectionView *)browerView
@@ -320,11 +345,10 @@
     return _browerView;
 }
 
-- (void)setCurrentCell:(ADPhotoBroswerViewCell *)currentCell
+- (ADPhotoBroswerViewCell *)currentCell
 {
-    _currentCell = currentCell;
-    
-    self.scale = _currentCell.imageScaleView.zoomScale;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.currentImageIndex inSection:0];
+    return (ADPhotoBroswerViewCell *)[self.browerView cellForItemAtIndexPath:indexPath];
 }
 
 - (NSInteger)currentImageIndex
@@ -378,6 +402,7 @@
         [identifiers addObject:identifier];
     }];
     photoBroswerView.identifiers = identifiers;
+    photoBroswerView.scale = 1;
     
     //设置浏览图片的容器
     [photoBroswerView addSubview:photoBroswerView.browerView];
@@ -394,6 +419,7 @@
     
     //开始浏览图片的下标
     photoBroswerView.browseStartIndex = browseStartIndex < thumbnailImageViews.count ? browseStartIndex : 0;
+
     
     //开始浏览初始化动画(如果存在大图缓存执行该动画)
     [photoBroswerView initializeAnimation];
@@ -412,15 +438,14 @@
         UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
         UIImageView *startView = (UIImageView *)self.thumbnailImageViews[startIndex];
         
-        self.snapshotView = [startView snapshotViewAfterScreenUpdates:YES];
-        
-        self.snapshotView.frame = [startView.superview convertRect:startView.frame toView:keyWindow];
+        self.startImageView = [[UIImageView alloc] initWithFrame:[startView.superview convertRect:startView.frame toView:keyWindow]];
+        self.startImageView.image = startImage;
         
         UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
         
         coverView.backgroundColor = [UIColor blackColor];
         
-        [coverView addSubview:self.snapshotView];
+        [coverView addSubview:self.startImageView];
         
         [keyWindow addSubview:coverView];
         
@@ -434,11 +459,10 @@
         CGFloat y = (kScreenHeight - h) * 0.5;
         
         [UIView animateWithDuration:0.25 animations:^{
-            self.snapshotView.frame = CGRectMake(x, y, w, h);
+            self.startImageView.frame = CGRectMake(x, y, w, h);
         } completion:^(BOOL finished) {
-            self.hidden = NO;
-            [self.snapshotView removeFromSuperview];
-            self.snapshotView = nil;
+            [self.startImageView removeFromSuperview];
+            self.startImageView = nil;
             [coverView removeFromSuperview];
         }];
     }
@@ -470,24 +494,24 @@
 /**移除图片浏览器*/
 - (void)dismissBrowserView
 {
-    self.snapshotView = [self.currentCell.imageView snapshotViewAfterScreenUpdates:YES];
+    self.endImageView.frame = [[self.currentCell.imageView superview] convertRect:self.currentCell.imageView.frame toView:[UIApplication sharedApplication].keyWindow];
+    UIImage *cacheImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:self.originalUrls[self.currentImageIndex]];
+    self.endImageView.image = cacheImage;
     
-    self.snapshotView.frame = [[self.currentCell.imageView superview] convertRect:self.currentCell.imageView.frame toView:[UIApplication sharedApplication].keyWindow];
-    
-    [[UIApplication sharedApplication].keyWindow addSubview:self.snapshotView];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.endImageView];
     
     [self removeFromSuperview];
     
-//    NSLog(@"下标:%zd",self.currentImageIndex);
+    NSLog(@"下标:%zd",self.currentImageIndex);
     
     UIView *finallyView = self.thumbnailImageViews[self.currentImageIndex];
     CGRect origanalRect = [finallyView.superview convertRect:finallyView.frame toView:[UIApplication sharedApplication].keyWindow];
     
     [UIView animateWithDuration:0.25 animations:^{
-        self.snapshotView.frame = origanalRect;
+        self.endImageView.frame = origanalRect;
     } completion:^(BOOL finished) {
-        [self.snapshotView removeFromSuperview];
-        self.snapshotView = nil;
+        [self.endImageView removeFromSuperview];
+        self.endImageView = nil;
     }];
 }
 

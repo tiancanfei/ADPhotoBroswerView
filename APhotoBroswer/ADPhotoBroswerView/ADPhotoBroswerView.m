@@ -10,8 +10,8 @@
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
 
-//#define kScreenHeight     ([UIScreen mainScreen].bounds.size.height)
-//#define kScreenWidth      ([UIScreen mainScreen].bounds.size.width)
+#define kScreenHeight     ([UIScreen mainScreen].bounds.size.height)
+#define kScreenWidth      ([UIScreen mainScreen].bounds.size.width)
 #define kMaxScale 3
 #define kMinScale 0.5
 

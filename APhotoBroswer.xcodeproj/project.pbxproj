@@ -16,7 +16,7 @@
 		AC822D731DAB34DA007C2F00 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC822D711DAB34DA007C2F00 /* LaunchScreen.storyboard */; };
 		AC822D7E1DAB34DA007C2F00 /* APhotoBroswerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D7D1DAB34DA007C2F00 /* APhotoBroswerTests.m */; };
 		AC822D891DAB34DA007C2F00 /* APhotoBroswerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D881DAB34DA007C2F00 /* APhotoBroswerUITests.m */; };
-		AC822D9E1DAB4469007C2F00 /* ADPhotoBroswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D9D1DAB4469007C2F00 /* ADPhotoBroswerView.m */; };
+		AC92AA341E4C223400941E48 /* ADPhotoBroswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC92AA331E4C223400941E48 /* ADPhotoBroswerView.m */; };
 		AC9770401DB46FC50066C6CA /* DemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AC97703F1DB46FC50066C6CA /* DemoCell.m */; };
 /* End PBXBuildFile section */
 
@@ -56,8 +56,8 @@
 		AC822D841DAB34DA007C2F00 /* APhotoBroswerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APhotoBroswerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC822D881DAB34DA007C2F00 /* APhotoBroswerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APhotoBroswerUITests.m; sourceTree = "<group>"; };
 		AC822D8A1DAB34DA007C2F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC822D9C1DAB4468007C2F00 /* ADPhotoBroswerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADPhotoBroswerView.h; sourceTree = "<group>"; };
-		AC822D9D1DAB4469007C2F00 /* ADPhotoBroswerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADPhotoBroswerView.m; sourceTree = "<group>"; };
+		AC92AA321E4C223400941E48 /* ADPhotoBroswerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADPhotoBroswerView.h; sourceTree = "<group>"; };
+		AC92AA331E4C223400941E48 /* ADPhotoBroswerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADPhotoBroswerView.m; sourceTree = "<group>"; };
 		AC97703E1DB46FC50066C6CA /* DemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoCell.h; sourceTree = "<group>"; };
 		AC97703F1DB46FC50066C6CA /* DemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoCell.m; sourceTree = "<group>"; };
 		B3B0534FE00983E4E6598FF2 /* Pods-APhotoBroswer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APhotoBroswer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-APhotoBroswer/Pods-APhotoBroswer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -133,8 +133,7 @@
 			children = (
 				AC822D661DAB34DA007C2F00 /* AppDelegate.h */,
 				AC822D671DAB34DA007C2F00 /* AppDelegate.m */,
-				AC822D9C1DAB4468007C2F00 /* ADPhotoBroswerView.h */,
-				AC822D9D1DAB4469007C2F00 /* ADPhotoBroswerView.m */,
+				AC92AA311E4C223400941E48 /* ADPhotoBroswerView */,
 				AC97703D1DB46F920066C6CA /* ADPhotoBroswerViewDemo */,
 				AC822D6C1DAB34DA007C2F00 /* Main.storyboard */,
 				AC822D6F1DAB34DA007C2F00 /* Assets.xcassets */,
@@ -169,6 +168,15 @@
 				AC822D8A1DAB34DA007C2F00 /* Info.plist */,
 			);
 			path = APhotoBroswerUITests;
+			sourceTree = "<group>";
+		};
+		AC92AA311E4C223400941E48 /* ADPhotoBroswerView */ = {
+			isa = PBXGroup;
+			children = (
+				AC92AA321E4C223400941E48 /* ADPhotoBroswerView.h */,
+				AC92AA331E4C223400941E48 /* ADPhotoBroswerView.m */,
+			);
+			path = ADPhotoBroswerView;
 			sourceTree = "<group>";
 		};
 		AC97703D1DB46F920066C6CA /* ADPhotoBroswerViewDemo */ = {
@@ -363,8 +371,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC822D9E1DAB4469007C2F00 /* ADPhotoBroswerView.m in Sources */,
 				AC9770401DB46FC50066C6CA /* DemoCell.m in Sources */,
+				AC92AA341E4C223400941E48 /* ADPhotoBroswerView.m in Sources */,
 				AC822D6B1DAB34DA007C2F00 /* ViewController.m in Sources */,
 				AC822D681DAB34DA007C2F00 /* AppDelegate.m in Sources */,
 				AC822D651DAB34DA007C2F00 /* main.m in Sources */,

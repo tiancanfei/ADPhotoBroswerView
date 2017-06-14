@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A2EA739BC77C0097BCB24E15 /* libPods-APhotoBroswer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BA46521B73A80D621ABEDF /* libPods-APhotoBroswer.a */; };
+		AC529C081EF1326100307B11 /* ADPhotoBroswerView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = AC529C071EF1326100307B11 /* ADPhotoBroswerView+Extension.m */; };
 		AC822D651DAB34DA007C2F00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D641DAB34DA007C2F00 /* main.m */; };
 		AC822D681DAB34DA007C2F00 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D671DAB34DA007C2F00 /* AppDelegate.m */; };
 		AC822D6B1DAB34DA007C2F00 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC822D6A1DAB34DA007C2F00 /* ViewController.m */; };
@@ -40,6 +41,8 @@
 /* Begin PBXFileReference section */
 		67BA46521B73A80D621ABEDF /* libPods-APhotoBroswer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-APhotoBroswer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AB68B318B7C44B99A4CFF29 /* Pods-APhotoBroswer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APhotoBroswer.release.xcconfig"; path = "Pods/Target Support Files/Pods-APhotoBroswer/Pods-APhotoBroswer.release.xcconfig"; sourceTree = "<group>"; };
+		AC529C061EF1326100307B11 /* ADPhotoBroswerView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ADPhotoBroswerView+Extension.h"; sourceTree = "<group>"; };
+		AC529C071EF1326100307B11 /* ADPhotoBroswerView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ADPhotoBroswerView+Extension.m"; sourceTree = "<group>"; };
 		AC822D601DAB34DA007C2F00 /* APhotoBroswer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = APhotoBroswer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC822D641DAB34DA007C2F00 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AC822D661DAB34DA007C2F00 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 			children = (
 				AC92AA321E4C223400941E48 /* ADPhotoBroswerView.h */,
 				AC92AA331E4C223400941E48 /* ADPhotoBroswerView.m */,
+				AC529C061EF1326100307B11 /* ADPhotoBroswerView+Extension.h */,
+				AC529C071EF1326100307B11 /* ADPhotoBroswerView+Extension.m */,
 			);
 			path = ADPhotoBroswerView;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				AC9770401DB46FC50066C6CA /* DemoCell.m in Sources */,
 				AC92AA341E4C223400941E48 /* ADPhotoBroswerView.m in Sources */,
 				AC822D6B1DAB34DA007C2F00 /* ViewController.m in Sources */,
+				AC529C081EF1326100307B11 /* ADPhotoBroswerView+Extension.m in Sources */,
 				AC822D681DAB34DA007C2F00 /* AppDelegate.m in Sources */,
 				AC822D651DAB34DA007C2F00 /* main.m in Sources */,
 			);

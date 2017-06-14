@@ -2,5 +2,5 @@
 
 #### 使用
 ```
-pod 'ADCarouselView'
+pod 'ADPhotoBroswerView'
 ```
